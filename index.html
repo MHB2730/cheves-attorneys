@@ -20,6 +20,7 @@
     --moss:#3d5c47;
     --sage:#7d9b83;
     --gold:#b28a44;
+    --gold-ink:#7f6229;
     --sand:#f4efe4;
     --cream:#fbf9f3;
     --ink:#22271f;
@@ -40,6 +41,14 @@
   .wrap{width:min(1140px,92vw);margin-inline:auto;position:relative;z-index:2}
   section{position:relative;padding:6.5rem 0}
   .eyebrow{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:inline-block;margin-bottom:1rem}
+  /* WCAG AA: darker gold for small labels on light sections; bright gold on dark */
+  .practice .eyebrow,.scope .eyebrow{color:var(--gold-ink)}
+  .hero .eyebrow{color:#e6c877}
+  /* accessible keyboard focus rings + skip link */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+  form input:focus-visible,form textarea:focus-visible,form select:focus-visible{outline:2px solid #e6c877;outline-offset:2px}
+  .skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--forest);color:#fff;padding:.75rem 1.1rem;border-radius:0 0 10px 0;font-size:.9rem;font-weight:500}
+  .skip:focus{left:0}
   .btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--sans);font-weight:500;font-size:.95rem;padding:.85rem 1.6rem;border-radius:100px;transition:.25s ease;cursor:pointer;border:1px solid transparent}
   .btn-primary{background:var(--gold);color:#fff}
   .btn-primary:hover{background:#9c7735;transform:translateY(-2px)}
@@ -129,7 +138,7 @@
   .creds{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem}
   .creds span{font-size:.82rem;padding:.45rem .95rem;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:rgba(255,255,255,.9)}
   .quote{border-left:3px solid var(--gold);padding:1.2rem 0 1.2rem 1.6rem;margin-top:2.2rem;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:#fff;line-height:1.5}
-  .quote cite{display:block;font-style:normal;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-top:.8rem}
+  .quote cite{display:block;font-style:normal;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:#8fac95;margin-top:.8rem}
 
   /* ---------- FIELD GALLERY ---------- */
   .field{background:var(--forest-deep);color:#fff}
@@ -232,6 +241,7 @@
 </head>
 <body>
 
+<a href="#practice" class="skip">Skip to content</a>
 <div class="mist" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b><b class="m4"></b></div>
 
 <!-- NAV -->

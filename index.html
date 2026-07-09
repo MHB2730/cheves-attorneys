@@ -23,12 +23,18 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--sans);color:var(--ink);background:var(--forest-deep);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing:-.01em}
   a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
   .wrap{width:min(1180px,92vw);margin-inline:auto;position:relative;z-index:2}
+  section{position:relative}
   .eyebrow{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:inline-block;margin-bottom:1rem}
+  .sec-head{max-width:60ch;margin-bottom:3.4rem}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.9rem);color:var(--forest);margin-bottom:1rem;position:relative;display:inline-block;padding-bottom:.55rem}
+  .sec-head h2::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width 1s cubic-bezier(.2,.7,.2,1) .25s}
+  .sec-head.in h2::after{width:64px}
+  .sec-head p{color:var(--muted);font-size:1.06rem}
   .btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:500;font-size:.95rem;padding:.85rem 1.6rem;border-radius:100px;transition:.25s ease;cursor:pointer;border:1px solid transparent}
   .btn-primary{background:var(--gold);color:#fff}
   .btn-primary:hover{background:#9c7735;transform:translateY(-2px)}
@@ -39,7 +45,7 @@
   a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
   form input:focus-visible,form textarea:focus-visible,form select:focus-visible{outline:2px solid #e6c877;outline-offset:2px}
 
-  /* ---------- NAV ---------- */
+  /* NAV */
   header.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:.3s ease;padding:1.1rem 0}
   header.nav.scrolled{background:rgba(251,249,243,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:.7rem 0}
   .nav-inner{display:flex;align-items:center;justify-content:space-between}
@@ -57,11 +63,11 @@
   .menu-btn span{display:block;width:24px;height:2px;background:#fff;margin:5px 0;transition:.3s}
   header.nav.scrolled .menu-btn span{background:var(--forest)}
 
-  /* ---------- HERO ---------- */
+  /* HERO (Drakensberg — landscape, full-bleed) */
   .hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;color:#fff;overflow:hidden}
   .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
-  .hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transform-origin:60% 40%;will-change:transform}
-  .hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(16,28,22,.5) 0%,rgba(16,28,22,.4) 35%,rgba(16,28,22,.88) 100%)}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 45%;transform:scale(1.06);will-change:transform}
+  .hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(16,28,22,.48) 0%,rgba(16,28,22,.38) 35%,rgba(16,28,22,.86) 100%)}
   .hero .wrap{padding-top:5rem}
   .hero h1{font-size:clamp(2.7rem,6.2vw,4.8rem);font-weight:400;max-width:15ch;margin-bottom:1.4rem;text-shadow:0 2px 34px rgba(0,0,0,.4)}
   .hero h1 em{font-style:italic;color:#e6c877}
@@ -75,61 +81,48 @@
   .scroll-hint::after{content:"";width:1px;height:36px;background:linear-gradient(rgba(255,255,255,.7),transparent);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 
-  /* ---------- MANIFESTO (full-bleed cinematic quote) ---------- */
-  .manifesto{position:relative;height:92vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden}
-  .manifesto .m-img{position:absolute;inset:0;z-index:0;overflow:hidden;clip-path:inset(38% 0 38% 0);transition:clip-path 1.4s cubic-bezier(.2,.7,.2,1)}
-  .manifesto.in .m-img{clip-path:inset(0 0 0 0)}
-  .manifesto .m-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);will-change:transform}
-  .manifesto .scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,rgba(11,20,14,.55),rgba(11,20,14,.82))}
-  .manifesto .wrap{max-width:20ch;z-index:2}
-  .manifesto blockquote{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.6rem,3.6vw,2.9rem);line-height:1.28;text-shadow:0 2px 30px rgba(0,0,0,.5)}
-  .manifesto cite{display:block;font-family:var(--sans);font-style:normal;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#e6c877;margin-top:1.6rem}
-  .m-fade{opacity:0;transform:translateY(22px);transition:opacity 1s ease .3s,transform 1s cubic-bezier(.2,.7,.2,1) .3s}
-  .manifesto.in .m-fade{opacity:1;transform:none}
+  /* MANIFESTO (text only — no photo) */
+  .manifesto{background:var(--forest-deep);color:#fff;padding:8rem 0;text-align:center}
+  .manifesto .wrap{max-width:24ch;margin-inline:auto}
+  .manifesto .eyebrow{color:#e6c877}
+  .manifesto blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,3.6vw,2.9rem);line-height:1.3}
+  .manifesto cite{display:block;font-style:normal;font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#8fac95;margin-top:1.6rem}
 
-  /* ---------- PRACTICE (sticky image + scrolling substance) ---------- */
-  .practice{background:var(--cream);position:relative}
-  .practice-stage{display:grid;grid-template-columns:1.05fr 1fr}
-  .pcol-img{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--forest-deep)}
-  .pcol-img .frames{position:absolute;inset:0;will-change:transform}
-  .pcol-img .frame{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
-  .pcol-img .frame:first-child{opacity:1}
-  .pcol-img .plabel{position:absolute;left:2rem;bottom:2rem;z-index:2;color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,.6)}
-  .pcol-img .pscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(11,20,14,.55),transparent 45%)}
-  .pcol-text{padding:14vh clamp(1.5rem,4vw,4rem) 14vh}
-  .pcol-text .sec-head{margin-bottom:3.5rem}
-  .pcol-text .sec-head h2{font-size:clamp(2rem,3.4vw,2.8rem);color:var(--forest);margin:.6rem 0 1rem}
-  .pcol-text .sec-head p{color:var(--muted)}
-  .p-item{padding:1.8rem 0;border-top:1px solid var(--line)}
-  .p-item:last-child{border-bottom:1px solid var(--line)}
-  .p-item .n{font-family:var(--serif);font-size:.95rem;color:var(--gold-ink)}
-  .p-item h3{font-size:1.35rem;color:var(--forest);margin:.35rem 0 .6rem}
-  .p-item p{color:var(--muted);font-size:.98rem}
+  /* PRACTICE (editorial cards — no photo) */
+  .practice{background:var(--cream);padding:7rem 0}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:2.2rem 1.9rem;transition:.3s ease;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:.35s ease}
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:transparent}
+  .card:hover::before{transform:scaleY(1)}
+  .card .ic{width:52px;height:52px;border-radius:13px;background:linear-gradient(135deg,#eef3ec,#dfe8df);display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;color:var(--moss)}
+  .card h3{font-size:1.26rem;color:var(--forest);margin-bottom:.7rem}
+  .card p{color:var(--muted);font-size:.96rem}
 
-  /* ---------- FIELD (full-bleed cross-dissolve sequence) ---------- */
-  .field-stage{position:relative;height:560vh}
-  .field-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-  .field-pin .frames{position:absolute;inset:0;will-change:transform}
-  .field-pin .frame{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
-  .field-pin .frame:first-child{opacity:1}
-  .field-pin .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(11,20,14,.9) 0%,rgba(11,20,14,.2) 42%,rgba(11,20,14,.35) 100%)}
-  .field-tag{position:absolute;top:6.5rem;left:0;right:0;z-index:2;text-align:center;color:#fff}
-  .field-tag .eyebrow{color:#e6c877}
-  .field-tag h2{font-size:clamp(1.8rem,3.4vw,2.6rem);text-shadow:0 2px 24px rgba(0,0,0,.5)}
-  .field-caps{position:absolute;left:0;right:0;bottom:3.2rem;z-index:2;color:#fff}
-  .field-caps .cap{position:absolute;left:0;right:0;text-align:center;opacity:0;will-change:opacity,transform}
-  .field-caps .cap .t{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem)}
-  .field-caps .cap .s{font-style:italic;color:#cfe0cf;margin-top:.3rem;font-size:1rem}
-  .field-progress{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;gap:.5rem}
-  .field-progress i{width:26px;height:3px;border-radius:3px;background:rgba(255,255,255,.28);transition:background .3s}
-  .field-progress i.on{background:#e6c877}
+  /* GALLERY — kingfisher feature (landscape) + portrait cards */
+  .gallery{background:var(--forest-deep);color:#fff;padding:7rem 0}
+  .gallery .sec-head h2{color:#fff}
+  .gallery .sec-head p{color:rgba(255,255,255,.72)}
+  .gallery .eyebrow{color:#e6c877}
+  .feature{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);margin-bottom:1.4rem}
+  .feature img{width:100%;height:100%;object-fit:cover;object-position:center 46%}
+  .feature figcaption{position:absolute;left:1.7rem;bottom:1.5rem;z-index:2;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+  .feature .t{font-family:var(--serif);font-size:1.4rem}
+  .feature .s{font-style:italic;color:#cfe0cf;font-size:.95rem;margin-top:.15rem}
+  .feature::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,20,14,.65),transparent 42%)}
+  .shots{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+  figure.shot{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:16px;margin:0;border:1px solid rgba(255,255,255,.08)}
+  figure.shot img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  figure.shot:hover img{transform:scale(1.06)}
+  figure.shot figcaption{position:absolute;inset:auto 0 0 0;z-index:2;padding:1.1rem;background:linear-gradient(transparent,rgba(11,20,14,.92))}
+  figure.shot .t{font-family:var(--serif);font-size:1.08rem}
+  figure.shot .s{font-style:italic;color:#8fac95;font-size:.8rem;margin-top:.15rem}
 
-  /* ---------- ABOUT ---------- */
+  /* ABOUT (Bob portrait — 4:5) */
   .about{background:var(--forest);color:#fff;overflow:hidden}
   .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:4rem;align-items:center;padding:7rem 0}
-  .portrait{aspect-ratio:4/5;border-radius:20px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow);clip-path:inset(0 0 100% 0 round 20px);transition:clip-path 1.1s cubic-bezier(.2,.7,.2,1)}
-  .about.in .portrait{clip-path:inset(0 0 0 0 round 20px)}
-  .portrait img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .portrait{aspect-ratio:4/5;border-radius:20px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow)}
+  .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .8s ease}
   .portrait:hover img{transform:scale(1.04)}
   .portrait .cap{position:absolute;inset:auto 0 0 0;z-index:2;padding:1.4rem;background:linear-gradient(transparent,rgba(16,28,22,.92))}
   .portrait .cap .nm{font-family:var(--serif);font-size:1.25rem}
@@ -140,12 +133,9 @@
   .creds{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem}
   .creds span{font-size:.82rem;padding:.45rem .95rem;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:rgba(255,255,255,.9)}
 
-  /* ---------- APPROACH ---------- */
+  /* APPROACH */
   .scope{background:var(--sand);padding:7rem 0}
   .scope .eyebrow{color:var(--gold-ink)}
-  .scope-head{max-width:60ch;margin-bottom:3rem}
-  .scope-head h2{font-size:clamp(2rem,4vw,2.8rem);color:var(--forest);margin-bottom:1rem}
-  .scope-head p{color:var(--muted);font-size:1.05rem}
   .scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
   .scope-col{background:#fff;border-radius:18px;padding:2.4rem;border:1px solid var(--line)}
   .scope-col h3{display:flex;align-items:center;gap:.7rem;font-size:1.3rem;color:var(--forest);margin-bottom:1.4rem}
@@ -154,11 +144,8 @@
   .scope-col li svg{flex:none;margin-top:.25rem}
   .tick{color:var(--moss)}.cross{color:#b56b5a}
 
-  /* ---------- CONTACT ---------- */
-  .contact{position:relative;color:#fff;overflow:hidden;padding:7rem 0}
-  .contact-bg{position:absolute;inset:0;z-index:0}
-  .contact-bg img{width:100%;height:100%;object-fit:cover}
-  .contact-bg .scrim{position:absolute;inset:0;background:linear-gradient(rgba(16,28,22,.88),rgba(16,28,22,.93))}
+  /* CONTACT (no photo) */
+  .contact{background:var(--forest-deep);color:#fff;padding:7rem 0}
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
   .contact h2{font-size:clamp(2rem,4vw,2.9rem);margin-bottom:1.2rem}
   .contact .eyebrow{color:#e6c877}
@@ -179,8 +166,8 @@
   form .btn-primary{width:100%;justify-content:center;margin-top:1.6rem}
   .form-note{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:1rem;text-align:center}
 
-  /* ---------- FOOTER ---------- */
-  footer.site{background:#0f1d16;color:rgba(255,255,255,.62);padding:3rem 0 2rem;font-size:.88rem;position:relative}
+  /* FOOTER */
+  footer.site{background:#0f1d16;color:rgba(255,255,255,.62);padding:3rem 0 2rem;font-size:.88rem}
   .foot-grid{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:1.8rem;margin-bottom:1.5rem}
   .foot-brand{display:flex;align-items:center;gap:.7rem;color:#fff}
   .foot-brand .mark{width:34px;height:34px}
@@ -190,41 +177,30 @@
 
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
+  .clip{clip-path:inset(0 0 100% 0 round 18px);transition:clip-path 1s cubic-bezier(.2,.7,.2,1)}
+  .clip.in{clip-path:inset(0 0 0 0 round 18px)}
 
-  /* ---------- RESPONSIVE ---------- */
   @media(max-width:900px){
+    .cards{grid-template-columns:1fr 1fr}
+    .shots{grid-template-columns:repeat(2,1fr)}
     .about-grid{grid-template-columns:1fr;gap:2.5rem;padding:5rem 0}
     .portrait{max-width:360px}
     .contact-grid{grid-template-columns:1fr;gap:2.5rem}
     .scope-grid{grid-template-columns:1fr}
-    .practice-stage{grid-template-columns:1fr}
-    .pcol-img{position:relative;height:64vh}
-    .pcol-text{padding:4rem clamp(1.4rem,6vw,2rem)}
+    .feature{aspect-ratio:3/2}
   }
   @media(max-width:680px){
     nav.links{position:fixed;top:0;right:0;height:100vh;width:min(320px,80vw);background:var(--forest-deep);flex-direction:column;align-items:flex-start;justify-content:center;padding:2rem 2.5rem;gap:1.6rem;transform:translateX(100%);transition:.35s ease;box-shadow:var(--shadow);z-index:55}
     nav.links.open{transform:none}
     nav.links a{color:#fff!important;font-size:1.1rem}
     .menu-btn{display:block;z-index:60}
+    .cards{grid-template-columns:1fr}
     .hero-meta{gap:1.4rem}
-    .field-stage{height:auto}
-    .field-pin{position:relative;height:auto}
   }
-
   @media(prefers-reduced-motion:reduce){
     .hero-bg img{transform:none!important}
-    .manifesto .m-img{clip-path:none!important}
-    .manifesto .m-fade,.reveal{opacity:1!important;transform:none!important;transition:none}
-    .portrait{clip-path:none!important}
-    /* un-pin cinematic stages: stack images statically */
-    .field-stage{height:auto}
-    .field-pin{position:relative;height:auto}
-    .field-pin .frames{position:relative;transform:none!important}
-    .field-pin .frame{position:relative;opacity:1!important;height:70vh}
-    .field-caps{display:none}
-    .pcol-img{position:relative;height:60vh}
-    .pcol-img .frame{opacity:1!important}
-    .pcol-img .frame:not(:first-child){display:none}
+    .reveal,.clip{opacity:1!important;transform:none!important;clip-path:none!important;transition:none}
+    .sec-head h2::after{transition:none}
   }
 </style>
 </head>
@@ -277,67 +253,51 @@
 </section>
 
 <!-- MANIFESTO -->
-<section class="manifesto" id="manifesto">
-  <div class="m-img"><img src="assets/field-aloe.jpg" alt="Aloe in flower on a KwaZulu-Natal hillside"></div>
-  <div class="scrim"></div>
-  <div class="wrap">
-    <blockquote class="m-fade">"Sustainable development means the integration of social, economic and environmental factors — for the benefit of present and future generations."</blockquote>
-    <cite class="m-fade">South Africa's constitutional framework for the environment</cite>
+<section class="manifesto">
+  <div class="wrap reveal">
+    <span class="eyebrow">Our purpose</span>
+    <blockquote>"Sustainable development means the integration of social, economic and environmental factors — for the benefit of present and future generations."</blockquote>
+    <cite>South Africa's constitutional framework for the environment</cite>
   </div>
 </section>
 
 <!-- PRACTICE -->
 <section class="practice" id="practice">
-  <div class="practice-stage" data-beats="4">
-    <div class="pcol-img">
-      <div class="frames">
-        <img class="frame" src="assets/field-kingfisher.jpg" alt="Woodland kingfisher">
-        <img class="frame" src="assets/field-owl.jpg" alt="Pel's fishing owl">
-        <img class="frame" src="assets/field-bloodlily.jpg" alt="Blood lily in flower">
-        <img class="frame" src="assets/field-aloe.jpg" alt="Aloe in flower">
-      </div>
-      <div class="pscrim"></div>
-      <div class="plabel">KwaZulu-Natal · from the field</div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>A focused practice, deeply held.</h2>
+      <p>Cheves Attorneys does a small number of things exceptionally well — each drawing on nearly two decades at the intersection of environmental science, land use and administrative law.</p>
     </div>
-    <div class="pcol-text">
-      <div class="sec-head">
-        <span class="eyebrow">What we do</span>
-        <h2>A focused practice, deeply held.</h2>
-        <p>Cheves Attorneys does a small number of things exceptionally well — each drawing on nearly two decades at the intersection of environmental science, land use and administrative law.</p>
-      </div>
-      <article class="p-item"><div class="n">01</div><h3>Environmental Law</h3><p>Interpretation of environmental legislation, environmental authorisations, compliance strategy, and licences and permits under NEMA and its regulations.</p></article>
-      <article class="p-item"><div class="n">02</div><h3>Planning Law</h3><p>Municipal planning objections and appeals, rezonings, subdivisions and development approvals under SPLUMA and provincial planning frameworks.</p></article>
-      <article class="p-item"><div class="n">03</div><h3>Municipal Rates</h3><p>Property valuation and rating disputes under the Local Government: Municipal Property Rates Act, including objections and valuation appeals.</p></article>
-      <article class="p-item"><div class="n">04</div><h3>Filling Station Development</h3><p>Site and retail licence applications for petroleum filling stations under the Petroleum Products Act — for applicants and objectors alike.</p></article>
-      <article class="p-item"><div class="n">05</div><h3>National Building Regulations</h3><p>Building plan approvals and compliance under the National Building Regulations and Building Standards Act.</p></article>
-      <article class="p-item"><div class="n">06</div><h3>Property &amp; Land Survey</h3><p>Related property matters (excluding conveyancing) and land survey legislation, where they touch environmental, planning and development questions.</p></article>
+    <div class="cards">
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c-4 4-6 7-6 11a6 6 0 0 0 12 0c0-4-2-7-6-11Z"/><path d="M12 8v10"/></svg></div><h3>Environmental Law</h3><p>Interpretation of environmental legislation, environmental authorisations, compliance strategy, and licences and permits under NEMA and its regulations.</p></article>
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M10 4v16"/></svg></div><h3>Planning Law</h3><p>Municipal planning objections and appeals, rezonings, subdivisions and development approvals under SPLUMA and provincial planning frameworks.</p></article>
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div><h3>Municipal Rates</h3><p>Property valuation and rating disputes under the Local Government: Municipal Property Rates Act, including objections and valuation appeals.</p></article>
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="11" height="12" rx="1"/><path d="M15 12h3l2 2v4a2 2 0 0 1-4 0M4 12h11"/></svg></div><h3>Filling Station Development</h3><p>Site and retail licence applications for petroleum filling stations under the Petroleum Products Act — for applicants and objectors alike.</p></article>
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-6-3-6 3Z"/><path d="M9 8h6M9 12h6"/></svg></div><h3>National Building Regulations</h3><p>Building plan approvals and compliance under the National Building Regulations and Building Standards Act.</p></article>
+      <article class="card reveal"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg></div><h3>Property &amp; Land Survey</h3><p>Related property matters (excluding conveyancing) and land survey legislation, where they touch environmental, planning and development questions.</p></article>
     </div>
   </div>
 </section>
 
-<!-- FIELD -->
-<section class="field-stage" id="field" data-beats="5">
-  <div class="field-pin">
-    <div class="frames">
-      <img class="frame" src="assets/field-kingfisher.jpg" alt="Woodland kingfisher perched on a branch">
-      <img class="frame" src="assets/field-owl.jpg" alt="Pel's fishing owl in a riverine tree">
-      <img class="frame" src="assets/field-bloodlily.jpg" alt="Blood lily in flower">
-      <img class="frame" src="assets/field-aloe.jpg" alt="Aloe in flower on a hillside">
-      <img class="frame" src="assets/field-cycad.jpg" alt="Bob Cheves beside an indigenous cycad">
-    </div>
-    <div class="scrim"></div>
-    <div class="field-tag">
+<!-- GALLERY -->
+<section class="gallery" id="field">
+  <div class="wrap">
+    <div class="sec-head reveal">
       <span class="eyebrow">From the field</span>
       <h2>The places this work protects.</h2>
+      <p>Bob is a keen birder, indigenous gardener and amateur photographer. These are his own images from across KwaZulu-Natal and the Drakensberg.</p>
     </div>
-    <div class="field-caps">
-      <div class="cap"><div class="t">Woodland Kingfisher</div><div class="s">Halcyon senegalensis</div></div>
-      <div class="cap"><div class="t">Pel's Fishing Owl</div><div class="s">Scotopelia peli</div></div>
-      <div class="cap"><div class="t">Blood Lily</div><div class="s">Scadoxus puniceus</div></div>
-      <div class="cap"><div class="t">Aloe in flower</div><div class="s">Winter hillside, KwaZulu-Natal</div></div>
-      <div class="cap"><div class="t">In the field</div><div class="s">Bob Cheves, beside an indigenous cycad</div></div>
+    <figure class="feature clip reveal">
+      <img src="assets/field-kingfisher.jpg" alt="Woodland kingfisher perched on a branch">
+      <figcaption><div class="t">Woodland Kingfisher</div><div class="s">Halcyon senegalensis</div></figcaption>
+    </figure>
+    <div class="shots">
+      <figure class="shot reveal"><img src="assets/field-owl.jpg" style="object-position:center 30%" alt="Pel's fishing owl in a riverine tree"><figcaption><div class="t">Pel's Fishing Owl</div><div class="s">Scotopelia peli</div></figcaption></figure>
+      <figure class="shot reveal"><img src="assets/field-bloodlily.jpg" style="object-position:center 40%" alt="Blood lily in flower"><figcaption><div class="t">Blood Lily</div><div class="s">Scadoxus puniceus</div></figcaption></figure>
+      <figure class="shot reveal"><img src="assets/field-aloe.jpg" style="object-position:center 42%" alt="Aloe in flower on a hillside"><figcaption><div class="t">Aloe in flower</div><div class="s">Winter hillside, KZN</div></figcaption></figure>
+      <figure class="shot reveal"><img src="assets/field-cycad.jpg" style="object-position:center 35%" alt="Bob Cheves beside an indigenous cycad"><figcaption><div class="t">In the field</div><div class="s">Beside an indigenous cycad</div></figcaption></figure>
     </div>
-    <div class="field-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   </div>
 </section>
 
@@ -345,7 +305,7 @@
 <section class="about" id="about">
   <div class="wrap">
     <div class="about-grid">
-      <div>
+      <div class="clip reveal">
         <div class="portrait">
           <img src="assets/portrait-bob.jpg" alt="Bob Cheves, Attorney and Principal of Cheves Attorneys">
           <div class="cap"><div class="nm">Bob Cheves</div><div class="rl">Attorney &amp; Principal</div></div>
@@ -367,7 +327,7 @@
 <!-- APPROACH -->
 <section class="scope" id="approach">
   <div class="wrap">
-    <div class="scope-head reveal">
+    <div class="sec-head reveal">
       <span class="eyebrow">How we work</span>
       <h2>Clarity about scope is a courtesy.</h2>
       <p>A specialist practice means knowing precisely where our expertise adds value — and being candid about where it doesn't. That honesty saves clients time and cost from the first conversation.</p>
@@ -399,7 +359,6 @@
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="contact-bg"><img src="assets/field-owl.jpg" alt="" aria-hidden="true"><div class="scrim"></div></div>
   <div class="wrap">
     <div class="contact-grid">
       <div class="reveal">
@@ -447,8 +406,7 @@
 </footer>
 
 <script>
-  /* --- provenance marker (inert) --- */
-  var _MHB_PROVENANCE = '49590c5fea514ca8b1f9c1a50d7cb238';
+  /* provenance marker (inert) */ var _MHB_PROVENANCE = '49590c5fea514ca8b1f9c1a50d7cb238';
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   var nav = document.getElementById('nav');
@@ -459,9 +417,8 @@
   document.getElementById('menuBtn').addEventListener('click', function(){ links.classList.toggle('open'); });
   links.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ links.classList.remove('open'); }); });
 
-  // reveal + section-in observers
-  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } }); }, {threshold:.16});
-  document.querySelectorAll('.reveal, .manifesto, .about').forEach(function(el){ io.observe(el); });
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.16});
+  document.querySelectorAll('.reveal, .clip').forEach(function(el,i){ el.style.transitionDelay = (i%4*70)+'ms'; io.observe(el); });
 
   function sendEnquiry(e){
     e.preventDefault(); var f = e.target;
@@ -471,41 +428,12 @@
     return false;
   }
 
-  /* ============ IMAGE-DRIVEN SCROLL DRIVER ============
-     Photographs are the transitions: scroll progress cross-dissolves stacked
-     <img> layers and drives a scroll-tied Ken Burns. rAF-throttled (fires only
-     while scrolling), DOM-image based — no canvas. */
+  /* hero scroll-zoom — the only scroll effect; rAF-throttled, DOM image */
   (function(){
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce) return;
-    var heroImg = document.getElementById('heroImg');
-    var stages = [].slice.call(document.querySelectorAll('[data-beats]'));
-    function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
-    var ticking = false;
-    function frame(){
-      var vh = window.innerHeight, y = window.scrollY;
-      if(heroImg && y < vh*1.3){ var hp = clamp(y/vh,0,1.3); heroImg.style.transform = 'scale(' + (1.06+hp*0.14).toFixed(3) + ') translateY(' + (hp*2.5).toFixed(1) + '%)'; }
-      stages.forEach(function(st){
-        var beats = +st.getAttribute('data-beats') || 1;
-        var r = st.getBoundingClientRect();
-        var span = st.offsetHeight - vh;
-        var p = clamp(-r.top / (span || 1), 0, 1);
-        var bf = p * (beats - 1);
-        var frames = st.querySelectorAll('.frame');
-        for(var i=0;i<frames.length;i++){ frames[i].style.opacity = clamp(1 - Math.abs(bf - i), 0, 1); }
-        var kb = st.querySelector('.frames'); if(kb){ kb.style.transform = 'scale(' + (1.05 + p*0.13).toFixed(3) + ')'; }
-        var caps = st.querySelectorAll('.field-caps .cap');
-        for(var j=0;j<caps.length;j++){ var o = clamp(1 - Math.abs(bf - j)*1.6, 0, 1); caps[j].style.opacity = o; caps[j].style.transform = 'translateY(' + ((1-o)*22).toFixed(1) + 'px)'; }
-        var dots = st.querySelectorAll('.field-progress i');
-        if(dots.length){ var act = Math.round(bf); for(var k=0;k<dots.length;k++){ dots[k].classList.toggle('on', k===act); } }
-      });
-      ticking = false;
-    }
-    function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(frame); } }
-    window.addEventListener('scroll', onScroll, {passive:true});
-    window.addEventListener('resize', onScroll, {passive:true});
-    window.addEventListener('load', frame);
-    frame();
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var hero = document.getElementById('heroImg'), ticking=false;
+    function upd(){ var y=window.scrollY, vh=window.innerHeight; if(y<vh*1.3){ var p=Math.min(y/vh,1.3); hero.style.transform='scale('+(1.06+p*0.12).toFixed(3)+') translateY('+(p*2.2).toFixed(1)+'%)'; } ticking=false; }
+    window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(upd); } }, {passive:true});
   })();
 </script>
 </body>

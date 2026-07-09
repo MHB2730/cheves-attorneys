@@ -15,10 +15,11 @@ This is a **draft concept** for presentation. Some details are placeholders
 
 - Responsive single-page layout (desktop / tablet / mobile)
 - Hero with a slow Ken Burns drift over the Drakensberg Amphitheatre
-- "From the field" gallery of the attorney's own wildlife and botany photography
-- An animated, depth-parallax leaf underlay (canvas), disabled under
+- "From the field" gallery of the attorney's own wildlife and botany photography,
+  with images that wipe in on scroll
+- A slow drifting green "mist" ambient underlay (pure CSS), disabled under
   `prefers-reduced-motion`
-- Scroll-reveal transitions; enquiry form that opens a pre-filled email
+- Scroll-reveal and parallax transitions; enquiry form that opens a pre-filled email
 
 ## Running locally
 

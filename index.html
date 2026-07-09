@@ -46,8 +46,17 @@
   .btn-ghost{border-color:rgba(255,255,255,.35);color:#fff}
   .btn-ghost:hover{background:rgba(255,255,255,.12)}
 
-  /* leaf underlay canvas */
-  #leafField{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+  /* drifting mist underlay (pure CSS) */
+  .mist{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform}
+  .mist b{position:absolute;border-radius:50%;filter:blur(70px);mix-blend-mode:screen;will-change:transform}
+  .mist .m1{width:64vmax;height:64vmax;left:-12vw;top:-18vh;opacity:.42;background:radial-gradient(circle at 50% 50%,#3f7d54,transparent 68%);animation:drift1 32s ease-in-out infinite alternate}
+  .mist .m2{width:54vmax;height:54vmax;right:-14vw;top:2vh;opacity:.38;background:radial-gradient(circle at 50% 50%,#77a35f,transparent 66%);animation:drift2 41s ease-in-out infinite alternate}
+  .mist .m3{width:48vmax;height:48vmax;left:18vw;bottom:-22vh;opacity:.40;background:radial-gradient(circle at 50% 50%,#2c6d4c,transparent 70%);animation:drift3 36s ease-in-out infinite alternate}
+  .mist .m4{width:40vmax;height:40vmax;right:8vw;bottom:-12vh;opacity:.26;background:radial-gradient(circle at 50% 50%,#c2984c,transparent 72%);animation:drift4 47s ease-in-out infinite alternate}
+  @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(7vw,6vh) scale(1.16)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1.06)}to{transform:translate(-6vw,7vh) scale(.9)}}
+  @keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(6vw,-6vh) scale(1.2)}}
+  @keyframes drift4{from{transform:translate(0,0) scale(1)}to{transform:translate(-5vw,-4vh) scale(1.12)}}
 
   /* ---------- NAV ---------- */
   header.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:.3s ease;padding:1.1rem 0}
@@ -69,7 +78,7 @@
 
   /* ---------- HERO ---------- */
   .hero{min-height:100vh;display:flex;align-items:center;color:#fff;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;overflow:hidden;will-change:transform}
   .hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);animation:kenburns 26s ease-in-out infinite alternate}
   @keyframes kenburns{from{transform:scale(1.05) translate(0,0)}to{transform:scale(1.16) translate(-2%,-2%)}}
   .hero-grad{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(16,28,22,.55) 0%,rgba(16,28,22,.45) 35%,rgba(16,28,22,.9) 100%)}
@@ -87,7 +96,10 @@
   @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 
   .sec-head{max-width:60ch;margin-bottom:3.5rem}
-  .sec-head h2{font-size:clamp(2rem,4vw,2.9rem);margin-bottom:1rem;color:var(--forest)}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.9rem);margin-bottom:1rem;color:var(--forest);position:relative;display:inline-block;padding-bottom:.55rem}
+  .sec-head h2::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width 1s cubic-bezier(.2,.7,.2,1) .25s}
+  .sec-head.in h2::after{width:64px}
+  .field .sec-head h2,.contact h2{color:#fff}
   .sec-head p{color:var(--muted);font-size:1.08rem}
 
   /* ---------- PRACTICE ---------- */
@@ -183,6 +195,9 @@
 
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
+  /* gallery images wipe in instead of sliding */
+  figure.shot.reveal{opacity:1;transform:none;clip-path:inset(0 0 100% 0 round 16px);transition:clip-path .95s cubic-bezier(.2,.7,.2,1)}
+  figure.shot.reveal.in{clip-path:inset(0 0 0 0 round 16px)}
 
   @media(max-width:900px){
     .cards{grid-template-columns:1fr 1fr}
@@ -207,13 +222,16 @@
   }
   @media(prefers-reduced-motion:reduce){
     .hero-bg img{animation:none}
+    .mist b{animation:none}
     .reveal{transition:none;opacity:1;transform:none}
+    figure.shot.reveal{clip-path:none}
+    .sec-head h2::after{transition:none}
   }
 </style>
 </head>
 <body>
 
-<canvas id="leafField" aria-hidden="true"></canvas>
+<div class="mist" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b><b class="m4"></b></div>
 
 <!-- NAV -->
 <header class="nav" id="nav">
@@ -519,113 +537,21 @@
     return false;
   }
 
-  /* ============ LIVING LEAF UNDERLAY (pseudo-3D) ============ */
+  /* ============ SCROLL PARALLAX (hero photo + mist) ============ */
   (function(){
-    const cv = document.getElementById('leafField');
-    const ctx = cv.getContext('2d');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const canFilter = (typeof ctx.filter !== 'undefined');
-    let W=0,H=0,DPR=1,leaves=[],raf=null,running=true;
-
-    // green + gold palette [light, dark]
-    const palette = [
-      ['#3a6b45','#1f3f28'],
-      ['#4f7d4c','#2c4d2e'],
-      ['#6f9553','#48633a'],
-      ['#9bbf6a','#5f7d3f'],
-      ['#c19a4e','#836028']  // amber accent
-    ];
-
-    function resize(){
-      DPR = Math.min(window.devicePixelRatio||1, 2);
-      W = window.innerWidth; H = window.innerHeight;
-      cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
-      cv.style.width = W+'px'; cv.style.height = H+'px';
-      ctx.setTransform(DPR,0,0,DPR,0,0);
+    if(reduce) return;
+    const heroBg = document.querySelector('.hero-bg');
+    const mist = document.querySelector('.mist');
+    let ticking = false;
+    function update(){
+      const y = window.scrollY;
+      if(heroBg && y < window.innerHeight * 1.3) heroBg.style.transform = 'translateY(' + (y * 0.08).toFixed(1) + 'px)';
+      if(mist) mist.style.transform = 'translateY(' + (y * -0.03).toFixed(1) + 'px)';
+      ticking = false;
     }
-
-    function makeLeaf(){
-      const z = Math.random();                     // 0 far .. 1 near
-      return {
-        x: Math.random()*W, y: Math.random()*H, z,
-        size: 16 + z*58,
-        baseAlpha: 0.07 + z*0.16,
-        rot: Math.random()*Math.PI*2,
-        spin: (Math.random()*2-1)*0.12,
-        flip: Math.random()*Math.PI*2,
-        flipSpeed: 0.1 + Math.random()*0.3,
-        driftX: (Math.random()*2-1)*(5+z*10),
-        driftY: 6 + z*16,
-        sway: Math.random()*Math.PI*2,
-        swayAmp: 8 + z*26,
-        blur: (1-z)*2.4,
-        color: palette[(Math.random()*palette.length)|0]
-      };
-    }
-
-    function build(){
-      const count = Math.max(12, Math.min(28, Math.round(W*H/70000)));
-      leaves = []; for(let i=0;i<count;i++) leaves.push(makeLeaf());
-    }
-
-    function leafPath(s){
-      ctx.beginPath();
-      ctx.moveTo(0,-s);
-      ctx.bezierCurveTo(s*0.72,-s*0.5, s*0.55,s*0.62, 0,s);
-      ctx.bezierCurveTo(-s*0.55,s*0.62, -s*0.72,-s*0.5, 0,-s);
-      ctx.closePath();
-    }
-
-    // pointer + scroll parallax
-    let mx=0,my=0,tmx=0,tmy=0,scrollY=window.scrollY||0;
-    window.addEventListener('mousemove', e=>{ tmx = e.clientX/W*2-1; tmy = e.clientY/H*2-1; }, {passive:true});
-    window.addEventListener('scroll', ()=>{ scrollY = window.scrollY; }, {passive:true});
-
-    let last = performance.now();
-    function frame(now){
-      const dt = Math.min((now-last)/1000, 0.05); last = now;
-      mx += (tmx-mx)*0.05; my += (tmy-my)*0.05;
-      ctx.clearRect(0,0,W,H);
-      const span = H + 200;
-      for(const l of leaves){
-        l.sway += dt*0.6; l.flip += dt*l.flipSpeed; l.rot += dt*l.spin;
-        l.x += dt*l.driftX; l.y += dt*l.driftY;
-        if(l.x - l.size > W) l.x = -l.size;
-        else if(l.x + l.size < 0) l.x = W + l.size;
-
-        const par = 8 + l.z*38;
-        const px = mx*par;
-        const py = my*par + scrollY*(0.03 + l.z*0.07);
-        let drawY = ((l.y + py) % span + span) % span - 100;
-        const drawX = l.x + Math.sin(l.sway)*l.swayAmp + px;
-        const flip = Math.cos(l.flip);              // fake Y-axis turn
-        const wScale = Math.max(0.12, Math.abs(flip)) * (flip<0?-1:1);
-
-        ctx.save();
-        ctx.translate(drawX, drawY);
-        ctx.rotate(l.rot + Math.sin(l.sway)*0.18);
-        ctx.scale(wScale, 1);
-        ctx.globalAlpha = l.baseAlpha * (0.55 + 0.45*Math.abs(flip));
-        if(canFilter && l.blur>0.3) ctx.filter = 'blur('+l.blur.toFixed(1)+'px)';
-        const g = ctx.createLinearGradient(0,-l.size,0,l.size);
-        g.addColorStop(0,l.color[0]); g.addColorStop(1,l.color[1]);
-        ctx.fillStyle = g; leafPath(l.size); ctx.fill();
-        if(canFilter) ctx.filter = 'none';
-        ctx.globalAlpha *= 0.45;
-        ctx.strokeStyle = l.color[1]; ctx.lineWidth = Math.max(0.6, l.size*0.03);
-        ctx.beginPath(); ctx.moveTo(0,-l.size*0.88); ctx.lineTo(0,l.size*0.86); ctx.stroke();
-        ctx.restore();
-      }
-      if(running && !reduce) raf = requestAnimationFrame(frame);
-    }
-
-    function start(){ if(reduce){ frame(performance.now()); return; } running=true; last=performance.now(); raf=requestAnimationFrame(frame); }
-    function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
-
-    resize(); build(); start();
-    let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ resize(); build(); if(reduce) frame(performance.now()); }, 200); });
-    document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : (!reduce && start()); });
-    window.__leaf = { stop, start };  // debug/screenshot hook
+    window.addEventListener('scroll', () => { if(!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive:true});
+    update();
   })();
 </script>
 </body>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="240" height="240" role="img" aria-label="Cheves Attorneys monogram">
+  <style>@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&amp;display=swap');
+  text{font-family:'UnifrakturCook','Georgia',serif;font-weight:700}</style>
+  <circle cx="60" cy="60" r="57" fill="#1f3a2e"/>
+  <circle cx="60" cy="60" r="57" fill="none" stroke="#b28a44" stroke-width="1.6"/>
+  <circle cx="60" cy="60" r="51.5" fill="none" stroke="#b28a44" stroke-width=".8" opacity=".6"/>
+  <path d="M60 17c5 5 5 13 0 18-5-5-5-13 0-18Z" fill="#d8b878"/>
+  <path d="M60 20.5v12.5" stroke="#1f3a2e" stroke-width="1"/>
+  <text x="60" y="83" text-anchor="middle" font-size="57" fill="#f2ecdb">BC</text>
+</svg>

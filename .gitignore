@@ -1,0 +1,16 @@
+# OS / editor cruft
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+
+# Local tooling
+.claude/
+launch.json
+
+# Env / secrets (none expected in a static site, but guard anyway)
+.env
+.env.*
+*.key
+*.pem
